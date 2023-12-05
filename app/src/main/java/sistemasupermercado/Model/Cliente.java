@@ -1,14 +1,16 @@
-package main.java.sistemasupermercado.Model;
+package sistemasupermercado.Model;
 
 public class Cliente {
     // Atributos
     String cpf;
     String nome;
+    String idade;
     
     //  Construtor
-    public Cliente(String cpf, String nome) {
+    public Cliente(String cpf, String nome, String idade) {
         this.cpf = cpf;
         this.nome = nome;
+        this.idade = idade;
     }
 
     // Getters and setters
@@ -26,6 +28,14 @@ public class Cliente {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public String getIdade() {
+        return idade;
+    }
+
+    public void setIdade(String idade) {
+        this.idade = idade;
     }
 
     
