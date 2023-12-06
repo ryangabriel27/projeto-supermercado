@@ -2,12 +2,14 @@ package sistemasupermercado.Gerenciamento.Model;
 
 public class Estoque {
     // Atributos
+    int id;
     String nomeDoProduto;
     String preco;
     String quantidade;
 
     // Construtor
-    public Estoque(String nomeDoProduto, String preco, String quantidade) {
+    public Estoque(int id, String nomeDoProduto, String preco, String quantidade) {
+        this.id = id;
         this.nomeDoProduto = nomeDoProduto;
         this.preco = preco;
         this.quantidade = quantidade;
@@ -36,6 +38,14 @@ public class Estoque {
 
     public void setQuantidade(String quantidade) {
         this.quantidade = quantidade;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
 }

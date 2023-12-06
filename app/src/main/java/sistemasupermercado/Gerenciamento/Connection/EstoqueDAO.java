@@ -26,7 +26,7 @@ public class EstoqueDAO {
     // métodos
     // criar Tabela
     public void criaTabela() {
-        String sql = "CREATE TABLE IF NOT EXISTS estoque_mercado (nome VARCHAR(255) PRIMARY KEY, preco VARCHAR(255), quantidade VARCHAR(4))";
+        String sql = "CREATE TABLE IF NOT EXISTS estoque_mercado (id INTEGER PRIMARY KEY, nome VARCHAR(255), preco VARCHAR(255), quantidade VARCHAR(4))";
         try (Statement stmt = this.connection.createStatement()) {
             stmt.execute(sql);
             System.out.println("Tabela criada com sucesso.");
@@ -55,6 +55,7 @@ public class EstoqueDAO {
                 // registro
 
                 Estoque produto = new Estoque(
+                        rs.getInt("id"),
                         rs.getString("nome"),
                         rs.getString("preco"),
                         rs.getString("quantidade"));
@@ -82,15 +83,16 @@ public class EstoqueDAO {
         }
     }
 
-    public void cadastrar(String nome, String preco, String quantidade) {
+    public void cadastrar(int id, String nome, String preco, String quantidade) {
         PreparedStatement stmt = null;
         // Define a instrução SQL parametrizada para cadastrar na tabela
-        String sql = "INSERT INTO estoque_mercado(nome, preco, quantidade) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO estoque_mercado(id, nome, preco, quantidade) VALUES (?, ?, ?, ?)";
         try {
             stmt = connection.prepareStatement(sql);
-            stmt.setString(1, nome.toUpperCase().trim());
-            stmt.setString(2, preco.toUpperCase().trim());
-            stmt.setString(3, quantidade.trim());
+            stmt.setInt(1, id);
+            stmt.setString(2, nome.toUpperCase().trim());
+            stmt.setString(3, preco.toUpperCase().trim());
+            stmt.setString(4, quantidade.trim());
             stmt.executeUpdate();
             System.out.println("Dados inseridos com sucesso");
         } catch (SQLException e) {
@@ -101,16 +103,17 @@ public class EstoqueDAO {
     }
 
     // Atualizar dados no banco
-    public void atualizar(String nome, String preco, String quantidade) {
+    public void atualizar(int id, String nome, String preco, String quantidade) {
         PreparedStatement stmt = null;
         // Define a instrução SQL parametrizada para atualizar dados pela placa
-        String sql = "UPDATE estoque_mercado SET preco = ?, quantidade = ? WHERE nome = ?";
+        String sql = "UPDATE estoque_mercado SET nome = ?, preco = ?, quantidade = ? WHERE id = ?";
         try {
             stmt = connection.prepareStatement(sql);
-            stmt.setString(1, preco.toUpperCase().trim());
-            stmt.setString(2, quantidade.trim());
+            stmt.setString(1, nome.toUpperCase().trim());
+            stmt.setString(2, preco.trim());
+            stmt.setString(3, quantidade.trim());
             // placa é chave primaria não pode ser alterada.
-            stmt.setString(3, nome);
+            stmt.setInt(4, id);
             stmt.executeUpdate();
             System.out.println("Dados atualizados com sucesso");
         } catch (SQLException e) {
@@ -121,13 +124,13 @@ public class EstoqueDAO {
     }
 
     // Apagar dados do banco
-    public void apagar(String nome) {
+    public void apagar(int id) {
         PreparedStatement stmt = null;
         // Define a instrução SQL parametrizada para apagar dados pela placa
-        String sql = "DELETE FROM estoque_mercado WHERE nome = ?";
+        String sql = "DELETE FROM estoque_mercado WHERE id = ?";
         try {
             stmt = connection.prepareStatement(sql);
-            stmt.setString(1, nome);
+            stmt.setInt(1, id);
             stmt.executeUpdate(); // Executa a instrução SQL
             System.out.println("Dado apagado com sucesso");
         } catch (SQLException e) {

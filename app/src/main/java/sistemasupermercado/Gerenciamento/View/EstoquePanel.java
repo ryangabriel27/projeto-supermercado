@@ -28,7 +28,7 @@ public class EstoquePanel extends JPanel {
     // Componentes
     private JPanel buttonPanel;
     private JButton cadastraProduto, editaProduto, apagaProduto;
-    private JTextField inputNomeProduto, inputPreco, inputQuantidade;
+    private JTextField inputNomeProduto, inputPreco, inputQuantidade, inputId;
     private DefaultTableModel tableModel;
     private JTable table;
     private List<Estoque> produtos = new ArrayList<>();
@@ -47,6 +47,7 @@ public class EstoquePanel extends JPanel {
         inputNomeProduto = new JTextField(10);
         inputPreco = new JTextField(10);
         inputQuantidade = new JTextField(10);
+        inputId = new JTextField(10);
 
         // Título
         JPanel title = new JPanel(new FlowLayout());
@@ -54,7 +55,9 @@ public class EstoquePanel extends JPanel {
         add(title);
 
         // Painel de entrada
-        JPanel inputPanel = new JPanel(new GridLayout(3, 2, 2, 4));
+        JPanel inputPanel = new JPanel(new GridLayout(4, 2, 2, 4));
+        inputPanel.add(new JLabel("Id do produto:"));
+        inputPanel.add(inputId);
         inputPanel.add(new JLabel("Nome do Produto:"));
         inputPanel.add(inputNomeProduto);
         inputPanel.add(new JLabel("Preço:"));
@@ -73,7 +76,8 @@ public class EstoquePanel extends JPanel {
         // Tabela
         jSPane = new JScrollPane();
         add(jSPane);
-        tableModel = new DefaultTableModel(new Object[][] {}, new String[] { "Nome do Produto", "Preço", "Quantidade" });
+        tableModel = new DefaultTableModel(new Object[][] {},
+                new String[] { "Id", "Nome do Produto", "Preço", "Quantidade" });
         table = new JTable(tableModel);
         jSPane.setViewportView(table);
 
@@ -96,9 +100,10 @@ public class EstoquePanel extends JPanel {
             public void mouseClicked(java.awt.event.MouseEvent e) {
                 linhaSelecionada = table.rowAtPoint(e.getPoint());
                 if (linhaSelecionada != -1) {
-                    inputNomeProduto.setText((String) table.getValueAt(linhaSelecionada, 0));
-                    inputPreco.setText((String) table.getValueAt(linhaSelecionada, 1));
-                    inputQuantidade.setText((String) table.getValueAt(linhaSelecionada, 2));
+                    inputId.setText(String.valueOf(table.getValueAt(linhaSelecionada, 0)));
+                    inputNomeProduto.setText((String) table.getValueAt(linhaSelecionada, 1));
+                    inputPreco.setText((String) table.getValueAt(linhaSelecionada, 2));
+                    inputQuantidade.setText((String) table.getValueAt(linhaSelecionada, 3));
                 }
             }
         });
@@ -108,9 +113,10 @@ public class EstoquePanel extends JPanel {
         // Cadastrar um produto
         cadastraProduto.addActionListener(e -> {
             if (!inputNomeProduto.getText().isEmpty() && !inputPreco.getText().isEmpty()
-                    && !inputQuantidade.getText().isEmpty()) {
+                    && !inputQuantidade.getText().isEmpty() && !inputId.getText().isEmpty()) {
 
-                control.cadastrarProduto(inputNomeProduto.getText(), inputPreco.getText(),
+                control.cadastrarProduto(Integer.parseInt(inputId.getText()), inputNomeProduto.getText(),
+                        inputPreco.getText(),
                         inputQuantidade.getText());
 
                 inputNomeProduto.setText("");
@@ -130,7 +136,8 @@ public class EstoquePanel extends JPanel {
                 int res = JOptionPane.showConfirmDialog(null, "Deseja atualizar as informações deste produto?",
                         "Editar", JOptionPane.YES_NO_OPTION);
                 if (res == JOptionPane.YES_OPTION) {
-                    control.atualizar(inputNomeProduto.getText(), inputPreco.getText(),
+                    control.atualizar(Integer.parseInt(inputId.getText()), inputNomeProduto.getText(),
+                            inputPreco.getText(),
                             inputQuantidade.getText());
                 }
             }
@@ -143,7 +150,7 @@ public class EstoquePanel extends JPanel {
                 int res = JOptionPane.showConfirmDialog(null, "Deseja excluir este produto?",
                         "Excluir", JOptionPane.YES_NO_OPTION);
                 if (res == JOptionPane.YES_OPTION) {
-                    control.apagar(inputNomeProduto.getText());
+                    control.apagar(Integer.parseInt(inputId.getText()));
                     inputNomeProduto.setText("");
                     inputPreco.setText("");
                     inputQuantidade.setText("");
@@ -156,7 +163,7 @@ public class EstoquePanel extends JPanel {
         tableModel.setRowCount(0);
         produtos = new EstoqueDAO().listarTodos();
         for (Estoque produto : produtos) {
-            tableModel.addRow(new Object[] { produto.getNomeDoProduto(), produto.getPreco(),
+            tableModel.addRow(new Object[] { produto.getId(), produto.getNomeDoProduto(), produto.getPreco(),
                     produto.getQuantidade() });
         }
     }

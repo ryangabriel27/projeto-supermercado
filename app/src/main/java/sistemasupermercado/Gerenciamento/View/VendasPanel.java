@@ -55,7 +55,7 @@ public class VendasPanel extends JPanel {
 
         jSPane = new JScrollPane();
         add(jSPane);
-        tableModel = new DefaultTableModel(new Object[][] {}, new String[] { "Produto", "Quantidade", "Total" });
+        tableModel = new DefaultTableModel(new Object[][] {}, new String[] { "Cliente", "Quantidade", "Total" });
         table = new JTable(tableModel);
         jSPane.setViewportView(table);
 

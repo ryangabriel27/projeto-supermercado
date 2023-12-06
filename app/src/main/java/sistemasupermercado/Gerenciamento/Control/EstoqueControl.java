@@ -27,24 +27,24 @@ public class EstoqueControl {
         tableModel.setRowCount(0);
         produtos = new EstoqueDAO().listarTodos();
         for (Estoque produto : produtos) {
-            tableModel.addRow(new Object[] { produto.getNomeDoProduto(), produto.getPreco(),
+            tableModel.addRow(new Object[] { produto.getId(), produto.getNomeDoProduto(), produto.getPreco(),
                     produto.getQuantidade() });
         }
     }
 
-    public void cadastrarProduto(String nomeDoProduto, String preco, String quantidade) {
+    public void cadastrarProduto(int id, String nomeDoProduto, String preco, String quantidade) {
         try {
             if (validaPreco(preco) && validaQuantidade(quantidade)) {
-                Estoque produto = new Estoque(nomeDoProduto.trim().toUpperCase(), preco.trim().toUpperCase(),
+                Estoque produto = new Estoque(id, nomeDoProduto.trim().toUpperCase(), preco.trim().toUpperCase(),
                         String.valueOf(quantidade));
                 produtos.add(produto);
-                new EstoqueDAO().cadastrar(nomeDoProduto, preco, quantidade);
+                new EstoqueDAO().cadastrar(id, nomeDoProduto, preco, quantidade);
                 atualizarTabela();
                 JOptionPane.showMessageDialog(null, "Produto cadastrado com sucesso!");
             } else {
                 JOptionPane.showMessageDialog(null,
-                    "Verifique se os dados escritos estão corretos e tente novamente!", "ERRO!",
-                    JOptionPane.WARNING_MESSAGE);
+                        "Verifique se os dados escritos estão corretos e tente novamente!", "ERRO!",
+                        JOptionPane.WARNING_MESSAGE);
             }
         } catch (Exception err) {
             System.out.println(err.getMessage());
@@ -54,22 +54,22 @@ public class EstoqueControl {
         }
     }
 
-    public void apagar(String nomeDoProduto) {
-        new EstoqueDAO().apagar(nomeDoProduto);
+    public void apagar(int id) {
+        new EstoqueDAO().apagar(id);
         atualizarTabela();
         JOptionPane.showMessageDialog(table, "Produto removido!", null, JOptionPane.ERROR_MESSAGE);
     }
 
-    public void atualizar(String nomeDoProduto, String preco, String quantidade) {
+    public void atualizar(int id, String nomeDoProduto, String preco, String quantidade) {
         try {
             if (validaPreco(preco) && validaQuantidade(quantidade)) {
-                new EstoqueDAO().atualizar(nomeDoProduto, preco, quantidade);
+                new EstoqueDAO().atualizar(id, nomeDoProduto, preco, quantidade);
                 JOptionPane.showMessageDialog(null, "Produto atualizado", null, JOptionPane.INFORMATION_MESSAGE);
                 atualizarTabela();
             } else {
                 JOptionPane.showMessageDialog(null,
-                    "Verifique se os dados escritos estão corretos e tente novamente!", "ERRO!",
-                    JOptionPane.WARNING_MESSAGE);
+                        "Verifique se os dados escritos estão corretos e tente novamente!", "ERRO!",
+                        JOptionPane.WARNING_MESSAGE);
             }
         } catch (Exception err) {
             System.out.println(err.getMessage());
@@ -88,9 +88,9 @@ public class EstoqueControl {
     }
 
     public boolean validaQuantidade(String quantidade) {
-        if (quantidade.matches("[0-9]+") && Integer.parseInt(quantidade) > 0){
+        if (quantidade.matches("[0-9]+") && Integer.parseInt(quantidade) > 0) {
             return true;
-        } 
+        }
         return false;
     }
 }

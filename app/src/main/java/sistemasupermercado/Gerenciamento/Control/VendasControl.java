@@ -32,7 +32,6 @@ public class VendasControl {
         try {
             Venda venda = new Venda(id, cliente.trim().toUpperCase(), valor.trim(), data.trim(),
                     quantidadeDeProdutos.trim());
-
             vendas.add(venda);
             new VendasDAO().cadastrar(cliente.trim().toUpperCase(), quantidadeDeProdutos.trim(), valor.trim(),
                     data.trim());

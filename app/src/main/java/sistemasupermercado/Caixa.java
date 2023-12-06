@@ -13,6 +13,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+
+import java.awt.Color;
 import java.awt.GridLayout;
 
 import sistemasupermercado.Gerenciamento.Model.Cliente;
@@ -27,8 +29,10 @@ public class Caixa extends JFrame {
     private DefaultTableModel tableModel;
     private JTable table;
     private List<Estoque> produtos = new ArrayList<>();
+    private List<Cliente> clientes = new ArrayList<>();
     private int linhaSelecionada = -1;
     private JScrollPane jSPane;
+    private boolean isClienteVIP = false;
 
     // Construtor
     public Caixa() {
@@ -80,8 +84,20 @@ public class Caixa extends JFrame {
         buttonPanel.setLayout(new GridLayout(1,1));
         buttonPanel.add(fazerCompra);
         mainPanel.add(buttonPanel);
-    }
 
+        // Tratamento de eventos
+        verificaCPF.addActionListener(e -> {
+            for (Cliente cliente : clientes) {
+                if (cliente.getCpf().equals(inputCPF.getText().trim())){
+                    isClienteVIP = true;
+                }
+            }
+
+            if(isClienteVIP){
+                cpfPanel.add(new JLabel("Cliente VIP!"));
+            }
+        });
+    }
 
     public void run() {
         pack();
