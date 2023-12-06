@@ -49,12 +49,16 @@ public class ClientesControl {
                 atualizarTabela();// Atualiza a tabela
                 JOptionPane.showMessageDialog(null, "Cliente cadastrado com sucesso!");
                 // Atualiza o banco de dados
+            } else {
+               JOptionPane.showMessageDialog(null,
+                    "Verifique se os dados escritos estão corretos e tente novamente!", "ERRO!",
+                    JOptionPane.WARNING_MESSAGE); 
             }
         } catch (Exception err) {
             System.out.println(err.getMessage());
             JOptionPane.showMessageDialog(null,
                     "Verifique se os dados escritos estão corretos e tente novamente!", "ERRO!",
-                    JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.ERROR_MESSAGE);
         }
 
     }
@@ -74,12 +78,16 @@ public class ClientesControl {
                 // Chama o método de atualização no banco de dados
                 JOptionPane.showMessageDialog(null, "Cliente atualizado", null, JOptionPane.INFORMATION_MESSAGE);
                 atualizarTabela(); // Atualiza a tabela de exibição após a atualização
+            } else {
+               JOptionPane.showMessageDialog(null,
+                    "Verifique se os dados escritos estão corretos e tente novamente!", "ERRO!",
+                    JOptionPane.WARNING_MESSAGE); 
             }
         } catch (Exception err) {
             System.out.println(err.getMessage());
             JOptionPane.showMessageDialog(null,
                     "Verifique se os dados escritos estão corretos e tente novamente!", "ERRO!",
-                    JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.ERROR_MESSAGE);
         }
 
     }

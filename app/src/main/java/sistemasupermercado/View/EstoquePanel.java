@@ -111,7 +111,7 @@ public class EstoquePanel extends JPanel {
                     && !inputQuantidade.getText().isEmpty()) {
 
                 control.cadastrarProduto(inputNomeProduto.getText(), inputPreco.getText(),
-                        Integer.parseInt(inputQuantidade.getText()));
+                        inputQuantidade.getText());
 
                 inputNomeProduto.setText("");
                 inputPreco.setText("");
@@ -131,7 +131,7 @@ public class EstoquePanel extends JPanel {
                         "Editar", JOptionPane.YES_NO_OPTION);
                 if (res == JOptionPane.YES_OPTION) {
                     control.atualizar(inputNomeProduto.getText(), inputPreco.getText(),
-                            Integer.parseInt(inputQuantidade.getText()));
+                            inputQuantidade.getText());
                 }
             }
         });
