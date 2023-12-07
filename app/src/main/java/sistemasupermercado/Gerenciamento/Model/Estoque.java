@@ -5,7 +5,9 @@ public class Estoque {
     int id;
     String nomeDoProduto;
     String preco;
+    int precoCompra;
     String quantidade;
+    int quantidadeCompra;
 
     // Construtor
     public Estoque(int id, String nomeDoProduto, String preco, String quantidade) {
@@ -13,6 +15,12 @@ public class Estoque {
         this.nomeDoProduto = nomeDoProduto;
         this.preco = preco;
         this.quantidade = quantidade;
+    }
+
+    public Estoque(String nomeDoProduto, int precoCompra, int quantidadeCompra) {
+        this.nomeDoProduto = nomeDoProduto;
+        this.precoCompra = precoCompra;
+        this.quantidadeCompra = quantidadeCompra;
     }
 
     // Getters and Setters
@@ -46,6 +54,14 @@ public class Estoque {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getQuantidadeCompra() {
+        return quantidadeCompra;
+    }
+
+    public void setQuantidadeCompra(int quantidadeCompra) {
+        this.quantidadeCompra = quantidadeCompra;
     }
 
 }
