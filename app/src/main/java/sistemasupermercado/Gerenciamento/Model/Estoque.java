@@ -64,4 +64,12 @@ public class Estoque {
         this.quantidadeCompra = quantidadeCompra;
     }
 
+    public int getPrecoCompra() {
+        return precoCompra;
+    }
+
+    public void setPrecoCompra(int precoCompra) {
+        this.precoCompra = precoCompra;
+    }
+
 }

@@ -21,6 +21,8 @@ import sistemasupermercado.Gerenciamento.Connection.ClientesDAO;
 import sistemasupermercado.Gerenciamento.Connection.EstoqueDAO;
 import sistemasupermercado.Gerenciamento.Model.Cliente;
 import sistemasupermercado.Gerenciamento.Model.Estoque;
+import sistemasupermercado.Gerenciamento.View.CadastroPanel;
+import sistemasupermercado.Gerenciamento.View.ClientesPanel;
 
 public class Caixa extends JFrame {
     // Atributos
@@ -33,9 +35,9 @@ public class Caixa extends JFrame {
     private List<Estoque> produtos;
     private List<Cliente> clientes;
     private List<Estoque> listaDeCompra = new ArrayList<>();
-    private int linhaSelecionada = -1;
     private JScrollPane jSPane;
     private boolean isClienteVIP;
+    private boolean produtoNaoEncontrado = true;
     private int contProduto = 1;
     private int quantidadeTotal = 0;
     private int valorTotal = 0;
@@ -83,8 +85,8 @@ public class Caixa extends JFrame {
 
         totalPanel.setLayout(new GridLayout(1, 3));
         totalPanel.add(new JLabel("Total:"));
-        totalPanel.add(valorFinal);
         totalPanel.add(quantidadeDeItens);
+        totalPanel.add(valorFinal);
         valorFinal.setEditable(false);
         quantidadeDeItens.setEditable(false);
         atualizaQuantidadeEValorTotal();
@@ -99,6 +101,7 @@ public class Caixa extends JFrame {
             isClienteVIP = validaCpf(inputCPF.getText());
             System.out.println(isClienteVIP);
             if (isClienteVIP == true) {
+                JOptionPane.showMessageDialog(null, "Cliente VIP!");
                 cpfPanel.add(clienteVIP);
             }
 
@@ -108,9 +111,15 @@ public class Caixa extends JFrame {
         adicionaProduto.addActionListener(e -> {
             if (!inputProduto.getText().isEmpty()) {
                 buscarProduto(Integer.parseInt(inputProduto.getText()));
-
                 inputProduto.setText("");
+            } else {
+                JOptionPane.showMessageDialog(null, "Preencha os campos corretamente!", "Mercado",
+                        JOptionPane.WARNING_MESSAGE);
             }
+        });
+
+        cadastrarNovoCliente.addActionListener(e -> {
+            cadastraNovoCliente();
         });
     }
 
@@ -125,6 +134,7 @@ public class Caixa extends JFrame {
     }
 
     public void buscarProduto(int id) {
+        contProduto = 1;
         produtos = new EstoqueDAO().listarTodos();
         for (Estoque produto : produtos) {
             if (produto.getId() == id) {
@@ -141,22 +151,55 @@ public class Caixa extends JFrame {
                 tableModel.addRow(new Object[] {
                         produto.getNomeDoProduto(), contProduto, produto.getPreco()
                 });
-                Estoque produtoComprado = new Estoque(produto.getNomeDoProduto(), contProduto, Integer.parseInt(produto.getPreco()));
+                Estoque produtoComprado = new Estoque(produto.getNomeDoProduto(), Integer.parseInt(produto.getPreco()),
+                        contProduto);
+                listaDeCompra.add(produtoComprado);
+                produtoNaoEncontrado = false;
             }
+        }
+
+        if (produtoNaoEncontrado) {
+            JOptionPane.showMessageDialog(null, "Produto não encontrado!", "Mercado", JOptionPane.ERROR_MESSAGE);
         }
         atualizaQuantidadeEValorTotal();
     }
 
-    public void atualizaQuantidadeEValorTotal(){
-        for (int i = 0; i < table.getRowCount(); i++) {
-            quantidadeTotal += (int) table.getValueAt(i, 1);
+    public void atualizaTabela() {
+        tableModel.setRowCount(0); // Limpa todas as linhas existentes na tabela
+        // Obtém os carros atualizados do banco de dados
+        for (Estoque compra : listaDeCompra) {
+            // Adiciona os dados de cada carro como uma nova linha na tabela Swing
+            tableModel.addRow(
+                    new Object[] { compra.getNomeDoProduto(), compra.getQuantidadeCompra(), compra.getPrecoCompra() });
+        }
+    }
+
+    public void cadastraNovoCliente() {
+        int res = JOptionPane.showConfirmDialog(null, "Iniciar cadastro do cliente",
+                "Mercado", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+        if (res == JOptionPane.YES_OPTION) {
+            JFrame janela = new JFrame();
+            janela.setVisible(true);
+            janela.setDefaultCloseOperation(2);
+            janela.setBounds(0, 0, 500, 300);
+
+            janela.add(new CadastroPanel());
+        }
+    }
+
+    public void atualizaQuantidadeEValorTotal() {
+        valorTotal = 0;
+        for (Estoque compra : listaDeCompra) {
+            int soma = compra.getQuantidadeCompra() * compra.getPrecoCompra();
+            valorTotal += soma;
+        }
+        valorFinal.setText("R$ " + String.valueOf(valorTotal));
+
+        quantidadeTotal = 0;
+        for (Estoque compra : listaDeCompra) {
+            quantidadeTotal += compra.getQuantidadeCompra();
         }
         quantidadeDeItens.setText(String.valueOf(quantidadeTotal));
-
-        for (int i = 0; i < table.getRowCount(); i++) {
-            valorTotal += (int) table.getValueAt(i, 2);
-        }
-        valorFinal.setText(String.valueOf(valorTotal));
     }
 
     public void run() {
