@@ -16,9 +16,12 @@ import javax.swing.table.DefaultTableModel;
 
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import sistemasupermercado.Gerenciamento.Connection.ClientesDAO;
 import sistemasupermercado.Gerenciamento.Connection.EstoqueDAO;
+import sistemasupermercado.Gerenciamento.Connection.VendasDAO;
 import sistemasupermercado.Gerenciamento.Model.Cliente;
 import sistemasupermercado.Gerenciamento.Model.Estoque;
 import sistemasupermercado.Gerenciamento.View.CadastroPanel;
@@ -27,9 +30,8 @@ import sistemasupermercado.Gerenciamento.View.ClientesPanel;
 public class Caixa extends JFrame {
     // Atributos
     private JTextField inputCPF, valorFinal, quantidadeDeItens, inputProduto;
-    private JButton verificaCPF, cadastrarNovoCliente, fazerCompra, adicionaProduto;
+    private JButton verificaCPF, cadastrarNovoCliente, fazerCompra, adicionaProduto, clienteVIP;
     private JPanel mainPanel, cpfPanel, buttonPanel, produtoPanel, totalPanel;
-    private JLabel clienteVIP;
     private DefaultTableModel tableModel;
     private JTable table;
     private List<Estoque> produtos;
@@ -40,7 +42,7 @@ public class Caixa extends JFrame {
     private boolean produtoNaoEncontrado = true;
     private int contProduto = 1;
     private int quantidadeTotal = 0;
-    private int valorTotal = 0;
+    private double valorTotal = 0, descontoVip = 0;
 
     // Construtor
     public Caixa() {
@@ -55,18 +57,19 @@ public class Caixa extends JFrame {
         inputProduto = new JTextField(20);
         valorFinal = new JTextField();
         quantidadeDeItens = new JTextField();
-        clienteVIP = new JLabel("Cliente VIP");
+        clienteVIP = new JButton("Cliente VIP");
         verificaCPF = new JButton("Verificar CPF");
         cadastrarNovoCliente = new JButton("Cadastrar novo cliente");
         adicionaProduto = new JButton("Adicionar Produto");
         fazerCompra = new JButton("Fazer compra");
 
-        clienteVIP.setForeground(new Color(65, 166, 18));
+        clienteVIP.setBackground(new Color(65, 166, 18));
+        clienteVIP.setForeground(new Color(252, 252, 252));
         // Adicionando o mainPanel ao JFrame
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         add(mainPanel);
 
-        cpfPanel.setLayout(new GridLayout(1, 3, 5, 4));
+        cpfPanel.setLayout(new GridLayout(1, 4, 5, 4));
         cpfPanel.add(inputCPF);
         cpfPanel.add(verificaCPF);
         cpfPanel.add(cadastrarNovoCliente);
@@ -102,13 +105,14 @@ public class Caixa extends JFrame {
             System.out.println(isClienteVIP);
             if (isClienteVIP == true) {
                 JOptionPane.showMessageDialog(null, "Cliente VIP!");
+                JOptionPane.showMessageDialog(null, "Cliente VIP recebe um desconto de 20% do valor total da compra!");
                 cpfPanel.add(clienteVIP);
             }
-
-            inputCPF.setText("");
+            atualizaQuantidadeEValorTotal();
         });
 
         adicionaProduto.addActionListener(e -> {
+
             if (!inputProduto.getText().isEmpty()) {
                 buscarProduto(Integer.parseInt(inputProduto.getText()));
                 inputProduto.setText("");
@@ -116,10 +120,24 @@ public class Caixa extends JFrame {
                 JOptionPane.showMessageDialog(null, "Preencha os campos corretamente!", "Mercado",
                         JOptionPane.WARNING_MESSAGE);
             }
+
         });
 
         cadastrarNovoCliente.addActionListener(e -> {
             cadastraNovoCliente();
+        });
+
+        fazerCompra.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new VendasDAO().cadastrar(inputCPF.getText(), valorFinal.getText().replaceAll("R$", "").trim(),
+                        "12/12/2023", String.valueOf(quantidadeTotal));
+                JOptionPane.showMessageDialog(null, "Venda realizada!", getTitle(), JOptionPane.INFORMATION_MESSAGE);
+                listaDeCompra.clear();
+                atualizaTabela();
+                atualizaQuantidadeEValorTotal();
+            }
         });
     }
 
@@ -138,9 +156,11 @@ public class Caixa extends JFrame {
         produtos = new EstoqueDAO().listarTodos();
         for (Estoque produto : produtos) {
             if (produto.getId() == id) {
+                produtoNaoEncontrado = false;
                 int res = JOptionPane.showConfirmDialog(null, "A quantidade do produto é maior que 1?",
                         "Mercado", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
                 if (res == JOptionPane.YES_OPTION) {
+
                     try {
                         contProduto = Integer.parseInt(JOptionPane.showInputDialog("Insira a quantidade do produto:"));
                     } catch (Exception err) {
@@ -148,13 +168,27 @@ public class Caixa extends JFrame {
                         contProduto = 1;
                     }
                 }
+
+                if (contProduto <= Integer.parseInt(produto.getQuantidade())) {
+                    int novaQuantidade = Integer.parseInt(produto.getQuantidade()) - contProduto;
+
+                    System.out.println(novaQuantidade);
+
+                    new EstoqueDAO().atualizarQuantidade(produto.getId(),
+                            String.valueOf(novaQuantidade));
+
+                } else {
+                    JOptionPane.showMessageDialog(null, "Quantidade inválida", getTitle(), JOptionPane.ERROR_MESSAGE);
+                    break;
+                }
                 tableModel.addRow(new Object[] {
                         produto.getNomeDoProduto(), contProduto, produto.getPreco()
                 });
-                Estoque produtoComprado = new Estoque(produto.getNomeDoProduto(), Integer.parseInt(produto.getPreco()),
+
+                Estoque produtoComprado = new Estoque(produto.getNomeDoProduto(),
+                        Double.parseDouble(produto.getPreco()),
                         contProduto);
                 listaDeCompra.add(produtoComprado);
-                produtoNaoEncontrado = false;
             }
         }
 
@@ -188,11 +222,17 @@ public class Caixa extends JFrame {
     }
 
     public void atualizaQuantidadeEValorTotal() {
+        isClienteVIP = validaCpf(inputCPF.getText());
         valorTotal = 0;
         for (Estoque compra : listaDeCompra) {
-            int soma = compra.getQuantidadeCompra() * compra.getPrecoCompra();
+            double soma = compra.getQuantidadeCompra() * compra.getPrecoCompra();
             valorTotal += soma;
         }
+        /* xxxxxx Desconto VIP - 20% xxxxx */
+        if (isClienteVIP == true) {
+            valorTotal -= (0.2*valorTotal);
+        }
+        /* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */
         valorFinal.setText("R$ " + String.valueOf(valorTotal));
 
         quantidadeTotal = 0;

@@ -77,7 +77,7 @@ public class EstoquePanel extends JPanel {
         jSPane = new JScrollPane();
         add(jSPane);
         tableModel = new DefaultTableModel(new Object[][] {},
-                new String[] { "Id", "Nome do Produto", "Preço", "Quantidade" });
+                new String[] { "Id", "Nome do Produto", "Preço (R$)", "Quantidade" });
         table = new JTable(tableModel);
         jSPane.setViewportView(table);
 

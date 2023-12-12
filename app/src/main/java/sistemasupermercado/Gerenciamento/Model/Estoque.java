@@ -5,7 +5,7 @@ public class Estoque {
     int id;
     String nomeDoProduto;
     String preco;
-    int precoCompra;
+    double precoCompra;
     String quantidade;
     int quantidadeCompra;
 
@@ -17,7 +17,7 @@ public class Estoque {
         this.quantidade = quantidade;
     }
 
-    public Estoque(String nomeDoProduto, int precoCompra, int quantidadeCompra) {
+    public Estoque(String nomeDoProduto, double precoCompra, int quantidadeCompra) {
         this.nomeDoProduto = nomeDoProduto;
         this.precoCompra = precoCompra;
         this.quantidadeCompra = quantidadeCompra;
@@ -64,11 +64,11 @@ public class Estoque {
         this.quantidadeCompra = quantidadeCompra;
     }
 
-    public int getPrecoCompra() {
+    public double getPrecoCompra() {
         return precoCompra;
     }
 
-    public void setPrecoCompra(int precoCompra) {
+    public void setPrecoCompra(double precoCompra) {
         this.precoCompra = precoCompra;
     }
 

@@ -20,9 +20,9 @@ public class Main {
         // default: JOptionPane.showMessageDialog(null, "Digite um valor válido");
         // break;
         // }
-       //new MainFrame().run();
+        // new MainFrame().run();
 
-        new Caixa().run();
+        // new Caixa().run();
 
     }
 }

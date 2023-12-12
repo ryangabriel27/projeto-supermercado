@@ -80,7 +80,7 @@ public class EstoqueControl {
     }
 
     public boolean validaPreco(String preco) {
-        if (preco.matches("[0-9]+([,.][0-9]{1,2})?")) {
+        if (preco.matches("[0-9]+([.][0-9]{1,2})?")) {
             return true;
         } else {
             return false;

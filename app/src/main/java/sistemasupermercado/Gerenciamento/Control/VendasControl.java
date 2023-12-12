@@ -23,8 +23,9 @@ public class VendasControl {
         tableModel.setRowCount(0);
         vendas = new VendasDAO().listarTodos();
         for (Venda venda : vendas) {
-            tableModel.addRow(new Object[] { venda.getId(), venda.getCliente(), venda.getQuantidadeDeProdutos(), venda.getValor(),
-                    venda.getData() });
+            tableModel.addRow(
+                    new Object[] { venda.getId(), venda.getCliente(), venda.getQuantidadeDeProdutos(), venda.getValor(),
+                            venda.getData() });
         }
     }
 
@@ -33,8 +34,8 @@ public class VendasControl {
             Venda venda = new Venda(id, cliente.trim().toUpperCase(), valor.trim(), data.trim(),
                     quantidadeDeProdutos.trim());
             vendas.add(venda);
-            new VendasDAO().cadastrar(cliente.trim().toUpperCase(), quantidadeDeProdutos.trim(), valor.trim(),
-                    data.trim());
+            new VendasDAO().cadastrar(cliente.trim().toUpperCase(), valor.trim(), data.trim(),
+                    quantidadeDeProdutos.trim());
             atualizarTabela();
             JOptionPane.showMessageDialog(null, "Venda realizada com sucesso!");
         } catch (Exception err) {
