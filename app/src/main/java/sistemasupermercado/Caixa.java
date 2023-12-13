@@ -26,6 +26,7 @@ import sistemasupermercado.Gerenciamento.Model.Cliente;
 import sistemasupermercado.Gerenciamento.Model.Estoque;
 import sistemasupermercado.Gerenciamento.View.CadastroPanel;
 import sistemasupermercado.Gerenciamento.View.ClientesPanel;
+import sistemasupermercado.Gerenciamento.View.FinalizaCompra;
 
 public class Caixa extends JFrame {
     // Atributos
@@ -131,12 +132,16 @@ public class Caixa extends JFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                new VendasDAO().cadastrar(inputCPF.getText(), valorFinal.getText().replaceAll("R$", "").trim(),
-                        "12/12/2023", String.valueOf(quantidadeTotal));
-                JOptionPane.showMessageDialog(null, "Venda realizada!", getTitle(), JOptionPane.INFORMATION_MESSAGE);
-                listaDeCompra.clear();
-                atualizaTabela();
-                atualizaQuantidadeEValorTotal();
+                if (!listaDeCompra.isEmpty() && valorTotal != 0) {
+                    
+                    new FinalizaCompra(listaDeCompra, valorTotal).run();
+
+                    new VendasDAO().cadastrar(inputCPF.getText(), valorFinal.getText().replaceAll("R$", "").trim(),
+                            "12/12/2023", String.valueOf(quantidadeTotal));
+                    JOptionPane.showMessageDialog(null, "Venda realizada!", getTitle(),
+                            JOptionPane.INFORMATION_MESSAGE);
+                    resetaTabela();
+                }
             }
         });
     }
@@ -230,7 +235,7 @@ public class Caixa extends JFrame {
         }
         /* xxxxxx Desconto VIP - 20% xxxxx */
         if (isClienteVIP == true) {
-            valorTotal -= (0.2*valorTotal);
+            valorTotal -= (0.2 * valorTotal);
         }
         /* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */
         valorFinal.setText("R$ " + String.valueOf(valorTotal));
@@ -240,6 +245,12 @@ public class Caixa extends JFrame {
             quantidadeTotal += compra.getQuantidadeCompra();
         }
         quantidadeDeItens.setText(String.valueOf(quantidadeTotal));
+    }
+
+    public void resetaTabela() {
+        listaDeCompra.clear();
+        atualizaTabela();
+        atualizaQuantidadeEValorTotal();
     }
 
     public void run() {
