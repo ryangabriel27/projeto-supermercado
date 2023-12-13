@@ -6,6 +6,7 @@ import java.awt.event.WindowAdapter;
 import java.util.List;
 
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -19,7 +20,8 @@ import sistemasupermercado.Gerenciamento.Model.Estoque;
 
 public class FinalizaCompra extends JFrame {
 
-    private JPanel mainP, topPanel, bottomPanel;
+    private JPanel mainP, topPanel, bottomPanel, buttonPanel;
+    private JButton comprar;
     private DefaultTableModel tableModel;
     private JTable table;
     private JScrollPane jScrollPane;
@@ -33,10 +35,10 @@ public class FinalizaCompra extends JFrame {
         topPanel = new JPanel(new GridLayout(1, 2));
         topPanel.add(new JLabel("Escolha a forma de pagamento:"));
 
-        JComboBox formasDePagamento = new JComboBox<>();
-        formasDePagamento.addItem(new JLabel("1 - Cartão de Crédito ou Débito"));
-        formasDePagamento.addItem(new JLabel("2 - Dinheiro"));
-        formasDePagamento.addItem(new JLabel("3 - PIX"));
+        JComboBox formasDePagamento = new JComboBox<String>();
+        formasDePagamento.addItem("1 - Cartão de Crédito ou Débito");
+        formasDePagamento.addItem("2 - Dinheiro");
+        formasDePagamento.addItem("3 - PIX");
         topPanel.add(formasDePagamento);
         mainP.add(topPanel);
 
@@ -54,6 +56,14 @@ public class FinalizaCompra extends JFrame {
         bottomPanel.add(new JLabel("R$ "+String.valueOf(valorFinal)));
         mainP.add(bottomPanel);
 
+        buttonPanel = new JPanel(new GridLayout(1,1));
+        comprar = new JButton("Fechar");
+        buttonPanel.add(comprar);
+        mainP.add(buttonPanel);
+
+        comprar.addActionListener(e ->{
+            this.dispose();
+        });
     }
 
     public void preencheTabela(List<Estoque> compras){

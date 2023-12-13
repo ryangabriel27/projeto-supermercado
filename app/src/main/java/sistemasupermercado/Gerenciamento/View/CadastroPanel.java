@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -18,9 +19,9 @@ import sistemasupermercado.Gerenciamento.Connection.ClientesDAO;
 import sistemasupermercado.Gerenciamento.Control.ClientesControl;
 import sistemasupermercado.Gerenciamento.Model.Cliente;
 
-public class CadastroPanel extends JPanel {
+public class CadastroPanel extends JFrame {
     // Componentes
-    private JPanel buttonPanel;
+    private JPanel buttonPanel, mainP;
     private JButton cadastraCliente;
     private JTextField inputCpf, inputNome, inputIdade;
     private DefaultTableModel tableModel;
@@ -28,8 +29,8 @@ public class CadastroPanel extends JPanel {
     private List<Cliente> clientes = new ArrayList<>();
 
     public CadastroPanel() {
-
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS)); // Definindo layout do CarrosPanel
+        mainP = new JPanel();
+        mainP.setLayout(new BoxLayout(mainP, BoxLayout.Y_AXIS)); // Definindo layout do CarrosPanel
 
         // --------------------------*
         // Componentes
@@ -41,7 +42,7 @@ public class CadastroPanel extends JPanel {
         // --------------------------*
         JPanel title = new JPanel(new FlowLayout());
         title.add(new JLabel("Cadastro de Clientes VIP"));
-        add(title);
+        mainP.add(title);
         // Adicionar os componentes:
         JPanel inputPanel = new JPanel(new GridLayout(3, 2, 2, 2)); // InputPanel
         inputPanel.add(new JLabel("Digite o cpf do cliente:"));
@@ -50,12 +51,12 @@ public class CadastroPanel extends JPanel {
         inputPanel.add(inputNome);
         inputPanel.add(new JLabel("Digite a idade do cliente:"));
         inputPanel.add(inputIdade);
-        add(inputPanel);
+        mainP.add(inputPanel);
 
         // --------------------------*
         buttonPanel = new JPanel(); // Painel de botões
         buttonPanel.add(cadastraCliente);
-        add(buttonPanel);// Adicionando o painel De botões a Tela Principal
+        mainP.add(buttonPanel);// Adicionando o painel De botões a Tela Principal
 
         // --------------------------
         // Cadastrar um cliente:
@@ -65,6 +66,7 @@ public class CadastroPanel extends JPanel {
                         new ClientesDAO().cadastrar(inputCpf.getText(), inputNome.getText(), inputIdade.getText());
                 
                         JOptionPane.showMessageDialog(null, "Cliente cadastrado!");
+                        this.dispose();
                     
             } else {
                 JOptionPane.showMessageDialog(inputPanel,

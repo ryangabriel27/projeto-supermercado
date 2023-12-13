@@ -217,12 +217,7 @@ public class Caixa extends JFrame {
         int res = JOptionPane.showConfirmDialog(null, "Iniciar cadastro do cliente",
                 "Mercado", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
         if (res == JOptionPane.YES_OPTION) {
-            JFrame janela = new JFrame();
-            janela.setVisible(true);
-            janela.setDefaultCloseOperation(2);
-            janela.setBounds(0, 0, 500, 300);
-
-            janela.add(new CadastroPanel());
+            new CadastroPanel();
         }
     }
 
