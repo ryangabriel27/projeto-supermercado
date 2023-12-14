@@ -1,5 +1,6 @@
 package sistemasupermercado.Gerenciamento.View;
 
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.util.ArrayList;
@@ -90,6 +91,13 @@ public class CadastroPanel extends JFrame {
             }
         });
         // --------------------------*
+
+        /*
+         * Estilização
+         */
+        cadastraCliente.setBackground(new Color(23, 71, 2));
+        cadastraCliente.setForeground(Color.WHITE);
+        //  ===================================
 
     }
 

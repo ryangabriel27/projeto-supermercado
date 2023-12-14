@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -79,6 +80,13 @@ public class Caixa extends JFrame {
         // Adicionando o mainPanel ao JFrame
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         add(mainPanel);
+
+        JPanel logo = new JPanel();
+        JLabel img = new JLabel();
+        ImageIcon iconMenu = new ImageIcon(getClass().getResource("./assets/logo3.png"));
+        img.setIcon(iconMenu);
+        logo.add(img); // Adicionando uma imagem ao menu do app
+        mainPanel.add(logo); // Adicionando o painel logo ao painel Principal
 
         JPanel title = new JPanel(new FlowLayout());
         title.add(new JLabel("Caixa"));
@@ -179,6 +187,20 @@ public class Caixa extends JFrame {
                 }
             } // Questiona o usuário se realmente ele deseja fechar a aplicação
         });
+
+        /*
+         * =======================================
+         * Estilização:
+         */
+        verificaCPF.setBackground(new Color(186, 95, 4));
+        verificaCPF.setForeground(Color.WHITE);
+        adicionaProduto.setBackground(new Color(186, 95, 4));
+        adicionaProduto.setForeground(Color.WHITE);
+        fazerCompra.setBackground(new Color(23, 71, 2));
+        fazerCompra.setForeground(Color.WHITE);
+        cadastrarNovoCliente.setBackground(Color.WHITE);
+
+        // ========================================
     }
 
     // ====================================================

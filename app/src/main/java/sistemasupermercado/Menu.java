@@ -1,5 +1,6 @@
 package sistemasupermercado;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.WindowAdapter;
@@ -46,6 +47,14 @@ public class Menu extends JFrame {
         buttons.add(caixa);
         mainP.add(buttons); // Adicionando o painel buttons ao painel principal
 
+        /* ===============================
+         * Estilização:
+         */
+        gerenciamento.setBackground(new Color(186, 95, 4));
+        gerenciamento.setForeground(Color.WHITE);
+        caixa.setBackground(new Color(23, 71, 2));
+        caixa.setForeground(Color.WHITE);
+        /* =============================== */
         gerenciamento.addActionListener(e -> { // Ao clicar no botão gerenciamento
             new MainFrame().run(); // Executa o mainFrame
             this.dispose(); // Fecha o menu

@@ -74,6 +74,13 @@ public class FinalizaCompra extends JFrame {
         comprar.addActionListener(e -> {
             this.dispose(); // Fecha a janela, ao clicar no botão Fechar
         });
+
+        /*
+         * Estilização:
+         */
+        comprar.setBackground(new Color(23, 71, 2));
+        comprar.setForeground(Color.WHITE);
+        //==========================
     }
 
     public void preencheTabela(List<Estoque> compras) { // Preenche a tabela com a listaDeCompra
