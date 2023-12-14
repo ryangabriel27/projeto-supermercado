@@ -73,4 +73,6 @@ Conclusão:
 
   Em síntese, a equipe atingiu as funcionalidades pré-estabelecidas para a sistematização do mercado, formulando as aplicabilidades de cada função impostas no projeto, dessa forma, fica evidente a lógica, praticidade e objetividade do programa.
 
+MANUAL DE INSTRUÇÕES
 
+  A partir da iniciação da tela principal, o cliente vai ter acesso a um menu com duas opções (Gerenciamento e Caixa), de forma respectiva, o gerenciamento de produtos dá acesso ao controle de estoque, dos clientes cadastrados no sistema e ao registro de vendas. Já o caixa, realiza o proceso de vendas, nele podemos pedir a identificação do cliente para saber se ele é ou não é VIP, também é possível realizar um cadastro para o mesmo. No caixa, temos, também, a funcionalidade para adicionar os produtos comprados pelo cliente, os produtos são adicionados a partir do ID digitado pelo usuário do caixa, assim pode-se informar a quantidade que adiquirida e seu respectivo preço. Após a identificação total do cliente e seus produtos adiquiridos, há o botão finalizar compra. Ao ser clicado, é referido ao usuário uma janela com um resumo da compra, informando a forma de pagamento, o total da compra, o cliente que fez a compra e se ele é VIP ou não. Por fim, também é referido os itens comprados pelo cliente, dessa forma a venda é registrado em um banco de dados.
