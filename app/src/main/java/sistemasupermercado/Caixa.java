@@ -76,6 +76,7 @@ public class Caixa extends JFrame {
 
         clienteVIP.setBackground(new Color(65, 166, 18));
         clienteVIP.setForeground(new Color(252, 252, 252));
+        clienteVIP.setVisible(false);
 
         // Adicionando o mainPanel ao JFrame
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
@@ -97,6 +98,7 @@ public class Caixa extends JFrame {
         cpfPanel.add(inputCPF);
         cpfPanel.add(verificaCPF);
         cpfPanel.add(cadastrarNovoCliente);
+        cpfPanel.add(clienteVIP);
         mainPanel.add(cpfPanel);
 
         produtoPanel.setLayout(new GridLayout(1, 3, 4, 5));
@@ -136,7 +138,7 @@ public class Caixa extends JFrame {
                     JOptionPane.showMessageDialog(null, "Cliente VIP!"); // Notifica o usuário
                     JOptionPane.showMessageDialog(null,
                             "Cliente VIP recebe um desconto de 20% do valor total da compra!");
-                    cpfPanel.add(clienteVIP);
+                    clienteVIP.setVisible(true);
                 }
                 atualizaQuantidadeEValorTotal(); // Atualiza o valor, pois como o cliente é VIP tem um desconto de 20%
                                                  // do valor final
