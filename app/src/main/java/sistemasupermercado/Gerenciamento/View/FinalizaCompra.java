@@ -1,5 +1,7 @@
 package sistemasupermercado.Gerenciamento.View;
 
+import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.WindowAdapter;
@@ -20,61 +22,69 @@ import sistemasupermercado.Gerenciamento.Model.Estoque;
 
 public class FinalizaCompra extends JFrame {
 
-    private JPanel mainP, topPanel, bottomPanel, buttonPanel;
+    private JPanel mainP, topPanel, midPanel, buttonPanel;
     private JButton comprar;
     private DefaultTableModel tableModel;
     private JTable table;
     private JScrollPane jScrollPane;
 
-    public FinalizaCompra(List<Estoque> compras, double valorFinal) {
+    public FinalizaCompra(List<Estoque> compras, double valorFinal, Object formaDePagamento, String cpfCliente,
+            boolean isClienteVIP) {
 
+        super("Resumo da compra");
+
+        // Criando um painel principal
         mainP = new JPanel();
-        mainP.setLayout(new BoxLayout(mainP, BoxLayout.Y_AXIS));
-        this.add(mainP);
+        mainP.setLayout(new BoxLayout(mainP, BoxLayout.Y_AXIS));// Definindo o layout do painel principal
+        this.add(mainP); // Adicionando o painel Principal ao frame
 
-        topPanel = new JPanel(new GridLayout(1, 2));
-        topPanel.add(new JLabel("Escolha a forma de pagamento:"));
+        JLabel clienteVIP = new JLabel(""); // Cria uma JLabel para informar se é VIP ou não
+        if (isClienteVIP) {
+            clienteVIP = new JLabel("Cliente VIP"); // Se sim ganha um valor
+            clienteVIP.setForeground(new Color(0, 173, 26));
+        }
 
-        JComboBox formasDePagamento = new JComboBox<String>();
-        formasDePagamento.addItem("1 - Cartão de Crédito ou Débito");
-        formasDePagamento.addItem("2 - Dinheiro");
-        formasDePagamento.addItem("3 - PIX");
-        topPanel.add(formasDePagamento);
-        mainP.add(topPanel);
+        midPanel = new JPanel(new FlowLayout()); // MidPanel apenas para centralizar o texto
+        midPanel.add(new JLabel("Resumo da compra:"));
+        mainP.add(midPanel); // Adicionando o midPanel ao painel principal
 
-        mainP.add(new JLabel("Resumo da compra:"));
-
-        tableModel = new DefaultTableModel(new Object[][] {}, new String[] { "Produto", "Quantidade" , "Valor p/Unidade" });
-        table = new JTable(tableModel);
-        preencheTabela(compras);
+        tableModel = new DefaultTableModel(new Object[][] {},
+                new String[] { "Produto", "Quantidade", "Valor p/Unidade" });
+        table = new JTable(tableModel); // Criando uma tabela que exibirá todos os produtos, com suas devidas
+                                        // quantidades e devidos valores, comprados pelo cliente
+        preencheTabela(compras); // Preenche a tabela com os itens
         jScrollPane = new JScrollPane();
-        mainP.add(jScrollPane);
+        mainP.add(jScrollPane); // Adiciona o jScrollPane com a tabela ao painel Principal
         jScrollPane.setViewportView(table);
 
-        bottomPanel = new JPanel(new GridLayout(1, 2));
-        bottomPanel.add(new JLabel("TOTAL: "));
-        bottomPanel.add(new JLabel("R$ "+String.valueOf(valorFinal)));
-        mainP.add(bottomPanel);
+        topPanel = new JPanel(new GridLayout(1, 4, 10, 0)); // TopPanel com informações com forma de pagamento, cliente
+                                                            // e
+                                                            // total da compra
+        topPanel.add(new JLabel("Forma de pagamento: " + String.valueOf(formaDePagamento)));
+        topPanel.add(new JLabel("TOTAL: R$ " + String.valueOf(valorFinal)));
+        topPanel.add(new JLabel("Cliente (CPF):" + cpfCliente + " "));
+        topPanel.add(clienteVIP);
+        mainP.add(topPanel); // Adicionando o topPanel ao painel principal
 
-        buttonPanel = new JPanel(new GridLayout(1,1));
+        buttonPanel = new JPanel(new GridLayout(1, 1)); // buttonPanel com o botão para fechar essa janela
         comprar = new JButton("Fechar");
         buttonPanel.add(comprar);
         mainP.add(buttonPanel);
 
-        comprar.addActionListener(e ->{
-            this.dispose();
+        comprar.addActionListener(e -> {
+            this.dispose(); // Fecha a janela, ao clicar no botão Fechar
         });
     }
 
-    public void preencheTabela(List<Estoque> compras){
-        for (Estoque compra : compras) {
-            tableModel.addRow(new Object[] { compra.getNomeDoProduto(), compra.getQuantidadeCompra() ,  "R$ "+compra.getPrecoCompra() });
+    public void preencheTabela(List<Estoque> compras) { // Preenche a tabela com a listaDeCompra
+        for (Estoque compra : compras) { // Percorre toda a listaDeCompra do cliente e vai adicionando os itens a tabela
+            tableModel.addRow(new Object[] { compra.getNomeDoProduto(), compra.getQuantidadeCompra(),
+                    "R$ " + compra.getPrecoCompra() });
         }
     }
 
-    public void run(){
+    public void run() {
         this.pack();
-        this.setDefaultCloseOperation(2);
         this.setVisible(true);
     }
 }

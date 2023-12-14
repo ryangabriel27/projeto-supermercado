@@ -23,7 +23,7 @@ public class EstoqueControl {
 
     // Métodos
 
-    public void atualizarTabela() {
+    public void atualizarTabela() { // Percorre a lista adicionando uma linha para cada item da lista
         tableModel.setRowCount(0);
         produtos = new EstoqueDAO().listarTodos();
         for (Estoque produto : produtos) {
@@ -34,7 +34,8 @@ public class EstoqueControl {
 
     public void cadastrarProduto(int id, String nomeDoProduto, String preco, String quantidade) {
         try {
-            if (validaPreco(preco) && validaQuantidade(quantidade)) {
+            if (validaPreco(preco) && validaQuantidade(quantidade)) { // Caso o preco e quantidade forem validados,
+                                                                      // então cadastram os dados no banco de dados
                 Estoque produto = new Estoque(id, nomeDoProduto.trim().toUpperCase(), preco.trim().toUpperCase(),
                         String.valueOf(quantidade));
                 produtos.add(produto);
@@ -62,7 +63,8 @@ public class EstoqueControl {
 
     public void atualizar(int id, String nomeDoProduto, String preco, String quantidade) {
         try {
-            if (validaPreco(preco) && validaQuantidade(quantidade)) {
+            if (validaPreco(preco) && validaQuantidade(quantidade)) { // Caso o preco e quantidade forem validados,
+                                                                      // então atualizam os dados no banco de dados
                 new EstoqueDAO().atualizar(id, nomeDoProduto, preco, quantidade);
                 JOptionPane.showMessageDialog(null, "Produto atualizado", null, JOptionPane.INFORMATION_MESSAGE);
                 atualizarTabela();
@@ -80,7 +82,8 @@ public class EstoqueControl {
     }
 
     public boolean validaPreco(String preco) {
-        if (preco.matches("[0-9]+([.][0-9]{1,2})?")) {
+        if (preco.matches("[0-9]+([.][0-9]{1,2})?")) { // Permite que o valor digitado no campo preço tenha apenas
+                                                       // números e "."
             return true;
         } else {
             return false;
@@ -88,7 +91,9 @@ public class EstoqueControl {
     }
 
     public boolean validaQuantidade(String quantidade) {
-        if (quantidade.matches("[0-9]+") && Integer.parseInt(quantidade) > 0) {
+        if (quantidade.matches("[0-9]+") && Integer.parseInt(quantidade) > 0) { // Verifica se o valor digitado no campo
+                                                                                // de quantidade tem apenas números e se
+                                                                                // é maior que 0
             return true;
         }
         return false;

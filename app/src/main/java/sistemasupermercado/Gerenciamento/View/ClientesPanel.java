@@ -156,7 +156,7 @@ public class ClientesPanel extends JPanel {
                         "Excluir", JOptionPane.YES_NO_OPTION);
                 if (res == JOptionPane.YES_OPTION) {
                     // Chama o método "apagar" do objeto operacoes com o valor do campo de entrada
-                    // "placa"
+                    // "cpf"
                     control.apagar(inputCpf.getText());
                     // Limpa os campos de entrada após a operação de exclusão
                     inputCpf.setText("");

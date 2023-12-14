@@ -101,21 +101,4 @@ public class VendasDAO {
             ConnectionFactory.closeConnection(connection, stmt);
         }
     }
-
-    // Apagar dados do banco
-    public void apagar(int id) {
-        PreparedStatement stmt = null;
-        // Define a instrução SQL parametrizada para apagar dados pela placa
-        String sql = "DELETE FROM vendas_mercado WHERE id = ?";
-        try {
-            stmt = connection.prepareStatement(sql);
-            stmt.setInt(1, id);
-            stmt.executeUpdate(); // Executa a instrução SQL
-            System.out.println("Dado apagado com sucesso");
-        } catch (SQLException e) {
-            throw new RuntimeException("Erro ao apagar dados no banco de dados.", e);
-        } finally {
-            ConnectionFactory.closeConnection(connection, stmt);
-        }
-    }
 }

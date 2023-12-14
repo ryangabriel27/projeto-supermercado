@@ -122,6 +122,7 @@ public class EstoquePanel extends JPanel {
                 inputNomeProduto.setText("");
                 inputPreco.setText("");
                 inputQuantidade.setText("");
+                inputId.setText("");
             } else {
                 JOptionPane.showMessageDialog(inputPanel,
                         "Preencha os campos corretamente para cadastrar um produto!!", null,
@@ -154,6 +155,7 @@ public class EstoquePanel extends JPanel {
                     inputNomeProduto.setText("");
                     inputPreco.setText("");
                     inputQuantidade.setText("");
+                    inputId.setText("");
                 }
             }
         });

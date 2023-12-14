@@ -41,7 +41,8 @@ public class ClientesControl {
     public void cadastrarCliente(String cpf, String nomeCompleto, String idade) {
         // Adiciona a tabela
         try {
-            if (validaCpf(cpf) && validaIdade(idade)) {
+            if (validaCpf(cpf) && validaIdade(idade)) { // Caso o cpf e idade forem validados, então cadastram os dados
+                                                        // no banco de dados
                 Cliente cliente = new Cliente(cpf.trim().toUpperCase(), nomeCompleto.trim().toUpperCase(),
                         idade.trim().toUpperCase());
                 clientes.add(cliente);
@@ -53,9 +54,9 @@ public class ClientesControl {
                 JOptionPane.showMessageDialog(null, "Cliente cadastrado com sucesso!");
                 // Atualiza o banco de dados
             } else {
-               JOptionPane.showMessageDialog(null,
-                    "Verifique se os dados escritos estão corretos e tente novamente!", "ERRO!",
-                    JOptionPane.WARNING_MESSAGE); 
+                JOptionPane.showMessageDialog(null,
+                        "Verifique se os dados escritos estão corretos e tente novamente!", "ERRO!",
+                        JOptionPane.WARNING_MESSAGE);
             }
         } catch (Exception err) {
             System.out.println(err.getMessage());
@@ -66,7 +67,7 @@ public class ClientesControl {
 
     }
 
-    // Método para apagar um carro do banco de dados
+    // Método para apagar um cliente do banco de dados
     public void apagar(String cpf) {
         new ClientesDAO().apagar(cpf);
         // Chama o método de exclusão no banco de dados
@@ -76,15 +77,16 @@ public class ClientesControl {
 
     public void atualizar(String cpf, String nomeCompleto, String idade) {
         try {
-            if (validaCpf(cpf) && validaIdade(idade)) {
+            if (validaCpf(cpf) && validaIdade(idade)) { // Caso o cpf e idade forem validados, então atualizam os dados
+                                                        // no banco de dados
                 new ClientesDAO().atualizar(cpf, nomeCompleto, idade);
                 // Chama o método de atualização no banco de dados
                 JOptionPane.showMessageDialog(null, "Cliente atualizado", null, JOptionPane.INFORMATION_MESSAGE);
                 atualizarTabela(); // Atualiza a tabela de exibição após a atualização
             } else {
-               JOptionPane.showMessageDialog(null,
-                    "Verifique se os dados escritos estão corretos e tente novamente!", "ERRO!",
-                    JOptionPane.WARNING_MESSAGE); 
+                JOptionPane.showMessageDialog(null,
+                        "Verifique se os dados escritos estão corretos e tente novamente!", "ERRO!",
+                        JOptionPane.WARNING_MESSAGE);
             }
         } catch (Exception err) {
             System.out.println(err.getMessage());

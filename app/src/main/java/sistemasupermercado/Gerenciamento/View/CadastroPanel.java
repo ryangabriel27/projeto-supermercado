@@ -58,16 +58,31 @@ public class CadastroPanel extends JFrame {
         buttonPanel.add(cadastraCliente);
         mainP.add(buttonPanel);// Adicionando o painel De botões a Tela Principal
 
+        add(mainP);
         // --------------------------
         // Cadastrar um cliente:
         cadastraCliente.addActionListener(e -> {
             if (!inputCpf.getText().isEmpty() && !inputNome.getText().isEmpty()
-                    && !inputIdade.getText().isEmpty()) {
-                        new ClientesDAO().cadastrar(inputCpf.getText(), inputNome.getText(), inputIdade.getText());
-                
-                        JOptionPane.showMessageDialog(null, "Cliente cadastrado!");
-                        this.dispose();
-                    
+                    && !inputIdade.getText().isEmpty()) { // Verifica se os campos não estiverem vazios
+
+                if (validaCpf(inputCpf.getText().trim()) && validaIdade(inputIdade.getText().trim())) { // Valida o cpf
+                                                                                                        // e a idade, se
+                                                                                                        // forem
+                                                                                                        // validados
+                                                                                                        // cadastra o
+                                                                                                        // cliente no
+                                                                                                        // banco de
+                                                                                                        // dados
+                    new ClientesDAO().cadastrar(inputCpf.getText(), inputNome.getText(), inputIdade.getText());
+
+                    JOptionPane.showMessageDialog(null, "Cliente cadastrado!");
+                    this.dispose(); // Fecha a janela
+                } else {
+                    JOptionPane.showMessageDialog(inputPanel,
+                            "Preencha os campos corretamente para cadastrar um cliente!!", null,
+                            JOptionPane.WARNING_MESSAGE);
+                }
+
             } else {
                 JOptionPane.showMessageDialog(inputPanel,
                         "Preencha os campos corretamente para cadastrar um cliente!!", null,
@@ -76,5 +91,28 @@ public class CadastroPanel extends JFrame {
         });
         // --------------------------*
 
+    }
+
+    public boolean validaCpf(String cpf) { // Verifica o texto digitado no inputCpf (apenas dígitos e tamanho igual a 11
+        // 'ex: 12345678910')
+        if (cpf.matches("[0-9]+") && cpf.length() == 11) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean validaIdade(String idade) { // Verifica o texto digitado no inputIdade (apenas dígitos e número maior
+        // que 0)
+        if (idade.matches("[0-9]+") && Integer.parseInt(idade) > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void run() {
+        pack();
+        setVisible(true);
     }
 }
