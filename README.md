@@ -21,7 +21,8 @@ Objetivos específicos:
   
 Metodologia:
 
-  No desenvolvimento da aplicação, foi utilizado JDBC, PostgreSQL, VSCode, e predominantemente a linguagem de programação Java
+  No desenvolvimento da aplicação, foi utilizado JDBC, PostgreSQL, VSCode, e predominantemente a linguagem de programação Java para realizar todo o sistema e suas respectivas
+funcionalidades, afim de atingir todos os critérios críticos e desejáveis implementados neste projeto.
 
 Resultados:
 
@@ -65,14 +66,11 @@ Discussão:
   O projeto foi desenvolvido por Ryan Gabriel de Júlio e Luis Otávio Beckman, em prol da estuturação eficiente e eficaz do projeto, a equipe dividiu as etapas a serem
 tratadas no projeto, afim de concluir a aplicação de forma íntegra e cumprindo os critérios críticos e desejáveis implementados por nosso Orientador Diogo Takamori Barbosa,
 os recursos linguísticos e estruturais do código, foram aplicados, em suma, para convergir com os critérios críticos impostos, tangenciando a maior parte dos critérios desejáveis.
-  Todavia, o desenvolvimento do corpo do código teve diversos conflitos com o banco de dados, e dificuldade com a conexão pré-estabelecida entre as telas. Com isso, através de auxílio, 
-conseguimos realizar a conexão e reestabelecer as partes estruturais que restavam no código.
-  Portanto, o sistema do mercado compreende-se de forma funcional para realzar as funções implementadas no código, dividida em telas principais que fornecem o viés para realizar os
-cadastros, vendas, compras e registros dos produtos e dos clientes do estabelecimento.
+  Todavia, o desenvolvimento do corpo do código teve diversos conflitos com o banco de dados, e dificuldade com a conexão pré-estabelecida entre as telas. Com isso, através de auxílio, conseguimos realizar a conexão e reestabelecer as partes estruturais que restavam no código.
+  Portanto, o sistema do mercado compreende-se de forma funcional para sobrevir as funções implementadas no código, dividida em telas principais que fornecem o viés para realizar os cadastros, vendas, compras e registros dos produtos e dos clientes do estabelecimento.
     
 Conclusão:
 
-  Em síntese, a equipe atingiu as funcionalidades pré-estabelecidas para a sistematização do mercado, formulando as aplicabilidades de cada função impostas no projeto, dessa forma, fica evidente
-a lógica, praticidade e objetividade do programa.
+  Em síntese, a equipe atingiu as funcionalidades pré-estabelecidas para a sistematização do mercado, formulando as aplicabilidades de cada função impostas no projeto, dessa forma, fica evidente a lógica, praticidade e objetividade do programa.
 
-Referências:
+
